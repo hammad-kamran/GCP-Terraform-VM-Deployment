@@ -20,11 +20,12 @@ jobs:
 
       - name: Set up GCP Credentials
         run: echo "${{ secrets.GCP_CREDENTIALS_FILE }}" > "${HOME}/gcp_credentials.json"
-        env:
-          GCP_CREDENTIALS_FILE: ${{ secrets.GCP_CREDENTIALS_FILE }}
 
-      - name: Initialize Terraform
+      - name: Terraform Init
         run: terraform init
 
-      - name: Apply Terraform
-        run: terraform apply -auto-approve
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
