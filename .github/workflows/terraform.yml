@@ -20,19 +20,18 @@ jobs:
 
       - name: Set up GCP Credentials
         run: echo "${{ secrets.GCP_CREDENTIALS_FILE }}" > "/tmp/gcp_credentials.json"
-        # The above will create the credentials file in /tmp folder
 
       - name: Terraform Init
         run: terraform init
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json" 
+          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -out=tfplan -var "gcp_credentials_file=/tmp/gcp_credentials.json"
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"  
+          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve tfplan -var "gcp_credentials_file=/tmp/gcp_credentials.json"
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"  
+          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
