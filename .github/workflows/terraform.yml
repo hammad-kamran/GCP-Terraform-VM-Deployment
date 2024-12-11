@@ -34,13 +34,10 @@ jobs:
 
       # Step 5: Terraform Plan
       - name: Terraform Plan
-        run: terraform plan -out=tfplan \
-          -var "project_id=${{ secrets.GCP_PROJECT_ID }}" \
-          -var "region=${{ secrets.GCP_REGION }}" \
-          -var "zone=${{ secrets.GCP_ZONE }}"
+        run: terraform plan -out=tfplan -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "region=${{ secrets.GCP_REGION }}" -var "zone=${{ secrets.GCP_ZONE }}"
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
-        # Run terraform plan using the passed credentials
+        # This step runs the Terraform plan with the provided variables
 
       # Step 6: Terraform Apply (optional)
       - name: Terraform Apply
