@@ -22,26 +22,18 @@ jobs:
 
       # Step 3: Set up GCP Credentials
       - name: Set up GCP Credentials
-        run: echo "${{ secrets.GCP_CREDENTIALS_FILE }}" > "/tmp/gcp_credentials.json"
-        # This saves the GCP credentials from GitHub secrets into a file
+        run: echo "${{ secrets.GCP_CREDENTIALS_FILE }}" > /tmp/gcp_credentials.json
+        # Ensuring the GCP credentials file is created from GitHub Secrets
 
-      # Step 4: Terraform Init
+      # Step 4: Initialize Terraform
       - name: Terraform Init
         run: terraform init
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
-        # This step initializes Terraform with the credentials
 
       # Step 5: Terraform Plan
       - name: Terraform Plan
-        run: terraform plan -out=tfplan \
-          -var "gcp_credentials_file=/tmp/gcp_credentials.json" \
-          -var "project_id=${{ secrets.GCP_PROJECT_ID }}" \
-          -var "region=${{ secrets.GCP_REGION }}" \
-          -var "zone=${{ secrets.GCP_ZONE }}"
+        run: terraform plan -out=tfplan -var "gcp_credentials_file=/tmp/gcp_credentials.json" -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "region=${{ secrets.GCP_REGION }}" -var "zone=${{ secrets.GCP_ZONE }}"
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
-        # This step executes the Terraform plan with the correct variables passed.
+          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"  # Pointing to the credentials file created in the previous step
 
       # Step 6: Terraform Apply (optional)
       - name: Terraform Apply
