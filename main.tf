@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = file(var.gcp_credentials_file)
+  credentials = file(var.gcp_credentials_file)  # Use the file path passed via the variable
   project     = var.project_id
   region      = var.region
 }
