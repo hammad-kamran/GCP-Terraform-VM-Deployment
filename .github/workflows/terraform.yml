@@ -34,18 +34,17 @@ jobs:
 
       # Step 5: Terraform Plan
       - name: Terraform Plan
-        run: |
-          terraform plan -out=tfplan \
-            -var "gcp_credentials_file=/tmp/gcp_credentials.json" \
-            -var "project_id=${{ secrets.GCP_PROJECT_ID }}" \
-            -var "region=${{ secrets.GCP_REGION }}" \
-            -var "zone=${{ secrets.GCP_ZONE }}"
+        run: terraform plan -out=tfplan \
+          -var "project_id=${{ secrets.GCP_PROJECT_ID }}" \
+          -var "region=${{ secrets.GCP_REGION }}" \
+          -var "zone=${{ secrets.GCP_ZONE }}"
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
+        # Run terraform plan using the passed credentials
 
-      # Step 6: Terraform Apply
+      # Step 6: Terraform Apply (optional)
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
-        # This applies the planned changes to your infrastructure
+        # Apply the Terraform plan if everything works fine
