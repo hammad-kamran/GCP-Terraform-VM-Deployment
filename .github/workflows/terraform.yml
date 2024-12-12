@@ -18,24 +18,20 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: '1.10.1'
+          terraform_version: '1.10.1'  # You can change this to the latest version if needed
 
-      # Step 3: Set up GCP Credentials
+      # Step 3: Set up GCP Credentials (from GitHub Secret)
       - name: Set up GCP Credentials
-        run: echo "${{ secrets.GCP_CREDENTIALS_FILE }}" > /tmp/gcp_credentials.json
+        run: echo "${{ secrets.GCP_CREDENTIALS_JSON }}" > /tmp/gcp_credentials.json
 
       # Step 4: Terraform Init
       - name: Terraform Init
         run: terraform init
 
-      # Step 5: Terraform Plan
+      # Step 5: Terraform Plan (pass the credentials directly as a variable)
       - name: Terraform Plan
-        run: terraform plan -out=tfplan \
-          -var "GOOGLE_CREDENTIALS_JSON=$(cat /tmp/gcp_credentials.json)" \
-          -var "project_id=${{ secrets.GCP_PROJECT_ID }}" \
-          -var "region=${{ secrets.GCP_REGION }}" \
-          -var "zone=${{ secrets.GCP_ZONE }}"
-
+        run: terraform plan -out=tfplan -var "GOOGLE_CREDENTIALS_JSON=${{ secrets.GCP_CREDENTIALS_JSON }}" -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "region=${{ secrets.GCP_REGION }}" -var "zone=${{ secrets.GCP_ZONE }}"
+        
       # Step 6: Terraform Apply (optional)
       # Only if you want to automatically apply changes after successful plan
       - name: Terraform Apply
