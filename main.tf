@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = jsondecode(var.gcp_credentials_file)  # Using raw JSON string passed via the environment variable
+  credentials = jsondecode(var.GOOGLE_CREDENTIALS_JSON)  # Use jsondecode to parse the raw JSON string
   project     = var.project_id
   region      = var.region
 }
