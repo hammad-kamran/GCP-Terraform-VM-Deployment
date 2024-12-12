@@ -3,39 +3,41 @@ name: Terraform
 on:
   push:
     branches:
-      - terraform
+      - terraform  # Specify the branch you want to trigger the workflow on
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Terraform
+      # Step 2: Set up Terraform
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: '1.10.1'
 
-      # Write GCP credentials to file
-      - name: Write GCP Credentials to file
+      # Step 3: Set up GCP Credentials
+      - name: Set up GCP Credentials
         run: echo "${{ secrets.GCP_CREDENTIALS_FILE }}" > /tmp/gcp_credentials.json
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp_credentials.json
 
-      # Initialize Terraform
+      # Step 4: Terraform Init
       - name: Terraform Init
         run: terraform init
 
-      # Terraform Plan (now using the file path)
+      # Step 5: Terraform Plan
       - name: Terraform Plan
         run: terraform plan -out=tfplan -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "region=${{ secrets.GCP_REGION }}" -var "zone=${{ secrets.GCP_ZONE }}"
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp_credentials.json
 
-      # Apply the Terraform plan
+      # Step 6: Terraform Apply
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcp_credentials.json"
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp_credentials.json
