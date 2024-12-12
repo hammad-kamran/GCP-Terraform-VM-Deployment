@@ -1,7 +1,8 @@
 provider "google" {
-  credentials = var.GOOGLE_CREDENTIALS_JSON  # Directly pass the raw JSON string
+  credentials = file("/tmp/gcp_credentials.json")
   project     = var.project_id
   region      = var.region
+  zone        = var.zone
 }
 
 resource "google_compute_instance" "vm_instance" {
