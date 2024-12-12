@@ -1,8 +1,3 @@
-variable "GOOGLE_CREDENTIALS_JSON" {
-  description = "The raw JSON credentials for GCP"
-  type        = string
-}
-
 variable "project_id" {
   description = "The GCP project ID"
   type        = string
