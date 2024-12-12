@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = jsondecode(var.gcp_credentials_file)
+  credentials = jsondecode(var.gcp_credentials_file)  # Using raw JSON string passed via the environment variable
   project     = var.project_id
   region      = var.region
 }
@@ -21,4 +21,8 @@ resource "google_compute_instance" "vm_instance" {
       // Assigns a public IP address
     }
   }
+}
+
+output "vm_public_ip" {
+  value = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
 }
