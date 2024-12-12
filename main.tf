@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = jsondecode(var.GOOGLE_CREDENTIALS_JSON)  # Use jsondecode to parse the raw JSON string
+  credentials = var.GOOGLE_CREDENTIALS_JSON  # Directly pass the raw JSON string
   project     = var.project_id
   region      = var.region
 }
@@ -22,4 +22,3 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 }
-
