@@ -1,5 +1,5 @@
 variable "gcp_credentials_file" {
-  description = "The GCP service account credentials in JSON format"
+  description = "The raw GCP service account credentials JSON string"
   type        = string
 }
 
