@@ -1,25 +1,22 @@
 provider "google" {
-  credentials = var.GOOGLE_CREDENTIALS_JSON
-  project     = var.project_id
-  region      = var.region
-  zone        = var.zone
+  credentials = file("google-credentials.json") # The service account JSON file
+  project     = var.project_id                 # Using variable for project ID
+  region      = var.region                     # Using variable for region
 }
 
 resource "google_compute_instance" "vm_instance" {
-  name         = "terraform-vm"
-  machine_type = "e2-medium"
+  name         = "example-vm"
+  machine_type = var.machine_type
   zone         = var.zone
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-11-bullseye-v20210916"
+      image = "debian-cloud/debian-11"
     }
   }
 
   network_interface {
     network = "default"
-    access_config {
-      // Assigns a public IP address
-    }
+    access_config {}
   }
 }
