@@ -1,9 +1,10 @@
 provider "google" {
-  credentials = var.GOOGLE_CREDENTIALS # The service account JSON file
-  project     = var.project_id                 # Using variable for project ID
-  region      = var.region                     # Using variable for region
-}
-
+  credentials =var.GOOGLE_CREDENTIALS  # Match variable name
+  project     = var.project_id                # Match variable name
+  region      = var.region                    # Match variable name
+  zone        = var.zone                      # Match variable name
+} 
+ 
 resource "google_compute_instance" "vm_instance" {
   name         = "example-vm"
   machine_type = var.machine_type
