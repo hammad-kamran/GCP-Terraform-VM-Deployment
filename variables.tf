@@ -1,5 +1,5 @@
-variable "GOOGLE_CREDENTIALS_JSON" {
-  description = "Path to the GCP credentials JSON file"
+variable "gcp_credentials_file" {
+  description = "The GCP service account credentials in JSON format"
   type        = string
 }
 

@@ -1,8 +1,7 @@
 provider "google" {
-  credentials = var.GOOGLE_CREDENTIALS_JSON
+  credentials = file(var.gcp_credentials_file)
   project     = var.project_id
   region      = var.region
-  zone        = var.zone
 }
 
 resource "google_compute_instance" "vm_instance" {
