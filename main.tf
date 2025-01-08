@@ -4,7 +4,7 @@ provider "google" {
   region      = var.region                    # Match variable name
   zone        = var.zone                      # Match variable name
 } 
- 
+   
 resource "google_compute_instance" "vm_instance" {
   name         = "example-vm"
   machine_type = var.machine_type
